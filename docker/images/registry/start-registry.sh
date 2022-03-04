@@ -23,23 +23,23 @@ must_popd() {
 update_config() {
     local db_type="${DB_TYPE}"
     local data_src_class_name="${DATA_SRC_CLASS_NAME}"
-    local db_url="${DB_URL//\//\\\/}"
+    local db_url="${DB_URL}"
     local db_user="${DB_USER}"
     local db_password="${DB_PASSWORD}"
-    local principal="HTTP\/$(hostname -f)"
-    local keytab="\/etc\/registry\/secrets\/http.keytab"
+    local principal="HTTP/$(hostname -f)"
+    local keytab="/etc/registry/secrets/http.keytab"
 
     if [[ "${IS_SECURED}" == "yes" ]]; then
         uncomment '/servletFilters/,+7' $REGISTRY_CONFIG
     fi
 
-    sed -r -i -e "/db.type/ s/:.*/: \"$db_type\"/"                   \
-        -e "/dataSourceClassName/ s/:.*/: \"$data_src_class_name\"/" \
-        -e "/dataSource.url/ s/:.*/: \"$db_url\"/"                   \
-        -e "/dataSource.user/ s/:.*/: \"$db_user\"/"                 \
-        -e "/dataSource.password/ s/:.*/: \"$db_password\"/" \
-        -e "/kerberos.principal/ s/:.*/: \"$principal\"/" \
-        -e "/kerberos.keytab/ s/:.*/: \"$keytab\"/" \
+    sed -r -i -e "/db.type/ s/:.*/: \"${db_type//\//\\\/}\"/"                   \
+        -e "/dataSourceClassName/ s/:.*/: \"${data_src_class_name//\//\\\/}\"/" \
+        -e "/dataSource.url/ s/:.*/: \"${db_url//\//\\\/}\"/"                   \
+        -e "/dataSource.user/ s/:.*/: \"${db_user//\//\\\/}\"/"                 \
+        -e "/dataSource.password/ s/:.*/: \"${db_password//\//\\\/}\"/" \
+        -e "/kerberos.principal/ s/:.*/: \"${principal//\//\\\/}\"/" \
+        -e "/kerberos.keytab/ s/:.*/: \"${keytab//\//\\\/}\"/" \
         "${REGISTRY_CONFIG}"
 }
 
