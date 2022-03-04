@@ -33,13 +33,13 @@ update_config() {
         uncomment '/servletFilters/,+7' $REGISTRY_CONFIG
     fi
 
-    sed -r -i -e "s#(db.type:) \"(.*)\"#\1 \"$db_type\"#"                   \
-        -e "s#(dataSourceClassName:) \"(.*)\"#\1 \"$data_src_class_name\"#" \
-        -e "s#(dataSource.url:) \"(.*)\"#\1 \"$db_url\"#"                   \
-        -e "s#(dataSource.user:) \"(.*)\"#\1 \"$db_user\"#"                 \
-        -e "s#(dataSource.password:) \"(.*)\"#\1 \"$db_password\"#" \
-        -e "s#(kerberos.principal:) \"(.*)\"#\1 \"$principal\"#" \
-        -e "s#(kerberos.keytab:) \"(.*)\"#\1 \"$keytab\"#" \
+    sed -r -i -e "/db.type/ s/:.*/: \"$db_type\"/"                   \
+        -e "/dataSourceClassName/ s/:.*/: \"$data_src_class_name\"/" \
+        -e "/dataSource.url/ s/:.*/: \"$db_url\"/"                   \
+        -e "/dataSource.user/ s/:.*/: \"$db_user\"/"                 \
+        -e "/dataSource.password/ s/:.*/: \"$db_password\"/" \
+        -e "/kerberos.principal/ s/:.*/: \"$principal\"/" \
+        -e "/kerberos.keytab/ s/:.*/: \"$keytab\"/" \
         "${REGISTRY_CONFIG}"
 }
 
